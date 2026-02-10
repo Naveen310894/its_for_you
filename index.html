@@ -2,59 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Important Question 💖</title>
+    <title>Important Question 💕</title>
 
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Comic Sans MS', cursive;
             text-align: center;
-            margin-top: 80px;
-            background: linear-gradient(135deg, #ffd6e8, #fff0f5);
+            margin-top: 70px;
+            background: linear-gradient(135deg, #ffe4ec, #fef6ff);
             overflow: hidden;
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 34px;
             margin-bottom: 40px;
+            color: #ff4d6d;
         }
 
         button {
             font-size: 20px;
-            padding: 12px 30px;
+            padding: 14px 34px;
             margin: 20px;
             border: none;
-            border-radius: 30px;
+            border-radius: 40px;
             cursor: pointer;
         }
 
         #yes {
-            background-color: #ff4d6d;
+            background-color: #ff85a1;
             color: white;
+            box-shadow: 0 5px 15px rgba(255, 133, 161, 0.4);
         }
 
         #no {
-            background-color: gray;
+            background-color: #bdbdbd;
             color: white;
             position: absolute;
         }
 
-        .heart {
+        .heart, .teddy, .text {
             position: fixed;
             bottom: -20px;
-            font-size: 20px;
             animation: floatUp 6s linear infinite;
-            color: red;
+            pointer-events: none;
+        }
+
+        .heart { color: #ff4d6d; }
+        .teddy { font-size: 26px; }
+        .text {
+            color: #ff6f91;
+            font-size: 18px;
         }
 
         @keyframes floatUp {
-            from {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateY(-800px);
-                opacity: 0;
-            }
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-900px); opacity: 0; }
         }
     </style>
 </head>
@@ -66,18 +68,19 @@
 <button id="yes">Yes 💕</button>
 <button id="no">No 🙃</button>
 
+<!-- Cute music -->
 <audio id="music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b6a6a1a.mp3?filename=happy-cute-piano-121999.mp3" type="audio/mpeg">
 </audio>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-    const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
     const music = document.getElementById("music");
 
-    // Move NO button when hovered
+    // NO button runs away
     noBtn.addEventListener("mouseover", () => {
         const x = Math.random() * (window.innerWidth - 150);
         const y = Math.random() * (window.innerHeight - 150);
@@ -87,13 +90,26 @@
 
     // YES button action
     yesBtn.addEventListener("click", () => {
+        music.volume = 0;
         music.play();
+
+        let v = 0;
+        const fade = setInterval(() => {
+            if (v < 1) {
+                v += 0.05;
+                music.volume = v;
+            } else {
+                clearInterval(fade);
+            }
+        }, 200);
+
         confetti({
-            particleCount: 200,
-            spread: 90,
+            particleCount: 220,
+            spread: 100,
             origin: { y: 0.6 }
         });
-        alert("YAYYY!!! 💖💖 You just made me the happiest person 🥹❤️");
+
+        alert("YAYYYY 🥹💖💖 I’m so happy!!!");
     });
 
     // Floating hearts
@@ -102,11 +118,31 @@
         heart.className = "heart";
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        heart.style.fontSize = (Math.random() * 20 + 16) + "px";
         document.body.appendChild(heart);
-
         setTimeout(() => heart.remove(), 6000);
     }, 300);
+
+    // Teddy bear rain
+    setInterval(() => {
+        const teddy = document.createElement("div");
+        teddy.className = "teddy";
+        teddy.innerHTML = "🧸";
+        teddy.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(teddy);
+        setTimeout(() => teddy.remove(), 6000);
+    }, 900);
+
+    // Cute floating texts
+    const texts = ["Say yes already 😭", "Pls 🥹", "Be mine 💕", "Pretty please 💖"];
+    setInterval(() => {
+        const text = document.createElement("div");
+        text.className = "text";
+        text.innerText = texts[Math.floor(Math.random() * texts.length)];
+        text.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(text);
+        setTimeout(() => text.remove(), 6000);
+    }, 1200);
 </script>
 
 </body>
